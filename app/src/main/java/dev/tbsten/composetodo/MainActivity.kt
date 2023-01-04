@@ -8,6 +8,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.tbsten.composetodo.home.HomeScreen
 import dev.tbsten.composetodo.ui.theme.ComposeTodoTheme
@@ -29,6 +32,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppRoot() {
-  HomeScreen()
+  val navController = rememberNavController()
+
+  NavHost(navController = navController, startDestination = "home") {
+    composable("home") {
+      HomeScreen()
+    }
+  }
 }
 
