@@ -1,5 +1,7 @@
 package dev.tbsten.composetodo.data
 
-class TodoRepository {
+import javax.inject.Inject
+
+class TodoRepository @Inject constructor() {
   // Todoの入出力をこのクラスに集約
 }
