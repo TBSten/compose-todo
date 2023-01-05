@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.tbsten.composetodo.data.TodoRepository
 import dev.tbsten.composetodo.domain.Todo
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -41,20 +42,26 @@ class HomeViewModel @Inject constructor(
         updateAt = LocalDateTime.now(),
       )
       todoRepository.add(newTodo)
-      refreshTodos()
-    }
+    }.withRefresh()
   }
 
   fun updateTodo(todo: Todo) {
     viewModelScope.launch {
       todoRepository.update(todo)
-    }
+    }.withRefresh()
   }
 
   fun deleteTodo(todo: Todo) {
     viewModelScope.launch {
       todoRepository.delete(todo)
+    }.withRefresh()
+  }
+
+  private fun Job.withRefresh(): Job {
+    invokeOnCompletion {
+      refreshTodos()
     }
+    return this
   }
 
 }
