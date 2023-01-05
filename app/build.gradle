@@ -66,6 +66,7 @@ dependencies {
     // hilt
     implementation "com.google.dagger:hilt-android:2.44"
     implementation project(path: ':data')
+    implementation project(path: ':domain')
     kapt "com.google.dagger:hilt-compiler:2.44"
 
     // navigation compose
