@@ -43,7 +43,10 @@ fun HomeScreen(
         }
         // todoがnullじゃないならそれを一覧表示
         items(_todos) { todo ->
-          TodoListItem(todo)
+          TodoListItem(
+            todo,
+            onDelete = { homeViewModel.deleteTodo(todo) },
+          )
         }
       } else {
         // todosがnullならロード中
@@ -63,13 +66,14 @@ fun HomeTopBar() {
 @Composable
 fun TodoListItem(
   todo: Todo,
+  onDelete: () -> Unit,
 ) {
   Row(
     modifier = Modifier.fillMaxWidth(),
     verticalAlignment = Alignment.CenterVertically,
   ) {
     Text("${todo.title}", modifier = Modifier.weight(1F))
-    IconButton(onClick = { TODO("not implement") }) {
+    IconButton(onClick = { onDelete() }) {
       Icon(rememberVectorPainter(Icons.Default.Delete), "削除")
     }
   }
@@ -88,6 +92,6 @@ fun TodoListItemPreview() {
     updateAt = LocalDateTime.now(),
   )
 
-  TodoListItem(exampleTodo)
+  TodoListItem(exampleTodo, {})
 }
 
