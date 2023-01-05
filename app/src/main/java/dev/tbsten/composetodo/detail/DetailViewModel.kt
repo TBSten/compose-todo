@@ -15,6 +15,7 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ActivityComponent
 import dev.tbsten.composetodo.data.TodoRepository
 import dev.tbsten.composetodo.domain.Todo
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,6 +27,9 @@ class DetailViewModel @AssistedInject constructor(
 ) : ViewModel() {
   private val _todo = MutableStateFlow<Todo?>(null)
   val todo = _todo.asStateFlow()
+
+  private val _isEditMode = MutableStateFlow(false)
+  val isEditMode = _isEditMode.asStateFlow()
 
   init {
     refresh()
@@ -39,6 +43,28 @@ class DetailViewModel @AssistedInject constructor(
     }
   }
 
+  private fun Job.withRefresh(): Job {
+    invokeOnCompletion {
+      refresh()
+    }
+    return this
+  }
+
+  fun switchToEditMode() {
+    _isEditMode.update { true }
+  }
+
+  fun editTodo(todo: Todo) {
+    _todo.update { todo }
+  }
+
+  fun save() {
+    viewModelScope.launch {
+      val saveTodo = todo.value ?: return@launch
+      todoRepository.update(saveTodo)
+      _isEditMode.update { false }
+    }.withRefresh()
+  }
 }
 
 
