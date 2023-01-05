@@ -1,5 +1,6 @@
 package dev.tbsten.composetodo.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +22,7 @@ import java.time.LocalDateTime
 @Composable
 fun HomeScreen(
   homeViewModel: HomeViewModel = hiltViewModel(),
+  gotoDetail: (Long) -> Unit,
 ) {
   val todos by homeViewModel.todos.collectAsState()
 
@@ -46,6 +48,7 @@ fun HomeScreen(
           TodoListItem(
             todo,
             onDelete = { homeViewModel.deleteTodo(todo) },
+            onClick = { gotoDetail(todo.id) },
           )
         }
       } else {
@@ -67,9 +70,10 @@ fun HomeTopBar() {
 fun TodoListItem(
   todo: Todo,
   onDelete: () -> Unit,
+  onClick: () -> Unit,
 ) {
   Row(
-    modifier = Modifier.fillMaxWidth(),
+    modifier = Modifier.fillMaxWidth().clickable { onClick() },
     verticalAlignment = Alignment.CenterVertically,
   ) {
     Text("${todo.title}", modifier = Modifier.weight(1F))
@@ -92,6 +96,6 @@ fun TodoListItemPreview() {
     updateAt = LocalDateTime.now(),
   )
 
-  TodoListItem(exampleTodo, {})
+  TodoListItem(exampleTodo, {}, {})
 }
 
