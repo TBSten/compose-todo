@@ -74,12 +74,12 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
-//    testImplementation 'junit:junit:4.13.2'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-//    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
-//    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
-//    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 }
 
 // for hilt
